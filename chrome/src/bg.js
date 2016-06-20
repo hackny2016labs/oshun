@@ -13,15 +13,17 @@ chrome.runtime.onInstalled.addListener
         );
 
         // add listener for context menu option click
-        chrome.contextMenus.onClicked.addListener(giveQuiz);
+        chrome.contextMenus.onClicked.addListener( function(info, tab) {
+            chrome.tabs.executeScript( { code: "window.getSelection().toString();"},
+                function(text) {
+                    if (tab) {
+                        chrome.tabs.sendMessage(tab.id, {args: text}, function(response) {
+                          console.log(text);
+                        });
+                    }
+                    return;
+                }
+            );
+        });
     }
 );
-
-/*
- * Generates quiz on currently selected text and displays
- * it on the screen.
- */
-function giveQuiz()
-{
-    alert('it works');    
-}

@@ -1,0 +1,11 @@
+#dialog {
+  margin: auto;
+}
+
+#dialog form {
+  display: inline-block;
+}
+
+.mdl-textfield {
+  padding: 0;
+}
