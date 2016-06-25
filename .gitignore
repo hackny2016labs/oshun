@@ -1,3 +1,3 @@
 *~
 *.pyc
-ml-scripts/venv/*
+parser/venv/*
