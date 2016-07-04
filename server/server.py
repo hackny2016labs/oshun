@@ -5,6 +5,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 
 from pymongo import MongoClient
 
+import ml
+
 # returns a handle to the test db
 def connect_db():
     connection = MongoClient() # defaults to localhost port 27017
@@ -15,10 +17,10 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 db = connect_db()
 
-@app.route('/', methods=['POST'])
-def process_text():
-    return 'Response from backend'
+@app.route('/<string:text>', methods=['POST'])
+def process_text(text):
+    return " ".join(ml.remove_pnp(text))
 
-@app.route('/solutions', methods=['GET'])
-def solutions():
-    return 'answers' 
+@app.route('/solutions/<string:text>', methods=['GET'])
+def solutions(text):
+    return ", ".join(ml.extract_pnp(text))
