@@ -1,10 +1,18 @@
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     var text = request.args[0];
 
-    // `text` is the string of highlighted text
-    // This is where the magic happens
+    $.ajax({
+        type: "GET",
+        url: "localhost:5000/blanks/" + text,
+        dataType: 'json',
+        error: function(xhr, error){
+            console.log(xhr)
+        },
+        success: function(data) {
+            console.log(data)
+        }
+    });
 
-    modal(text);
     return;
 });
 
@@ -12,14 +20,12 @@ function modal(text) {
     var withBlanks = text.replace(/the/g,
             "<form action=\"#\">\
                 <div class=\"mdl-textfield mdl-js-textfield\">\
-                    <input class=\"mdl-textfield__input\" type=\"text\" id=\"sample1\">\
                 </div>\
             </form>"
         );
 
     var layerNode= document.createElement('div');
     layerNode.setAttribute('id','dialog');
-    layerNode.setAttribute('title','Oshun');
     var pNode= document.createElement('p');
         pNode.innerHTML  = withBlanks;
 
