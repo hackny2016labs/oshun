@@ -8,7 +8,7 @@ def extract_pnp(text):
 	for (word, tag) in tagged:
 		if "NNP" in tag:
 			pnp.append(word)
-			blanks.append('__')
+			blanks.append('___')
 		else:
 			blanks.append(word)
 	return (blanks, pnp)

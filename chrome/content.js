@@ -3,41 +3,47 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     $.ajax({
         type: "GET",
-        url: "localhost:5000/blanks/" + text,
+        url: "https://hacknylabs2016-oshun.herokuapp.com/blanks/" + text,
         dataType: 'json',
-        error: function(xhr, error){
-            console.log(xhr)
-        },
         success: function(data) {
-            console.log(data)
+            modal(data, text);
+        },
+        error: function(error){
+            console.log(error);
         }
     });
-
     return;
 });
 
-function modal(text) {
-    var withBlanks = text.replace(/the/g,
+function modal(question, answer) {
+    var withBlanks = question.replace(/the/g,
             "<form action=\"#\">\
-                <div class=\"mdl-textfield mdl-js-textfield\">\
-                </div>\
+                <div class=\"mdl-textfield mdl-js-textfield\">\</div>\
             </form>"
         );
 
     var layerNode= document.createElement('div');
     layerNode.setAttribute('id','dialog');
-    var pNode= document.createElement('p');
+    var pNode = document.createElement('p');
         pNode.innerHTML  = withBlanks;
+    var buttonNode = document.createElement('BUTTON');
+        buttonNode.innerHTML  = "Show Answers";
+        buttonNode.setAttribute('id','answers');
 
     layerNode.appendChild(pNode);
+    layerNode.appendChild(buttonNode);
     document.body.appendChild(layerNode);
+
+    $( "#answers" ).click(function() {
+        buttonNode.innerHTML = answer;
+    });
 
     $("#dialog").dialog({
         autoOpen: true,
         draggable: true,
         resizable: true,
         height: 'auto',
-        width: 500,
+        width: 1000,
         zIndex: 3999,
         modal: false,
         open: function(event, ui) {

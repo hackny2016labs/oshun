@@ -9,7 +9,7 @@ app.config.from_object(__name__)
 @app.route('/blanks/<string:question>')
 def generate_blanks(question):
     answers = oshun.extract_pnp(question)
-    return jsonify(answers[0])
+    return jsonify(' '.join(answers[0]))
 
 @app.route('/answer/<string:question>')
 def generate_answer(question):
